@@ -45,27 +45,27 @@ def scraping(product):  # sourcery skip: do-not-use-bare-except
    
 def first_bot():
 
-    driver.get('https://www.amazon.com/') #interacting with browser
+   driver.get('https://www.amazon.com/') #interacting with browser
 
    #initiate search 
-    search_bar = driver.find_element(By.ID,'twotabsearchtextbox')
+   search_bar = driver.find_element(By.ID,'twotabsearchtextbox')
 
-    user_input = input('Enter what you want: ')
+   user_input = input('Enter what you want: ')
 
-    search_bar.send_keys(f'{user_input}')
-    search_bar.send_keys(Keys.RETURN)
+   search_bar.send_keys(f'{user_input}')
+   search_bar.send_keys(Keys.RETURN)
 
-    driver.implicitly_wait(10)
+   driver.implicitly_wait(10)
 
    # retrieve the HTML content after submitting the search query
-    html = driver.page_source
+   html = driver.page_source
 
-    soup = BeautifulSoup(html,'lxml')
+   soup = BeautifulSoup(html,'lxml')
 
-    products = soup.find_all('div', {'data-asin': True, 'data-component-type' : 's-search-result'})
+   products = soup.find_all('div', {'data-asin': True, 'data-component-type' : 's-search-result'})
     
-    product_dict = []
-    for product in products:
-        product_dict.append(product)
-        
+   product_dict = []
+   for product in products:
+      product_dict.append(product)
+
 first_bot()
