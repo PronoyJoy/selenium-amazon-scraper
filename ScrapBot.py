@@ -11,7 +11,38 @@ chrome_options = Options()
 chrome_options.add_experimental_option("detach", True) #frequent tab closing problem
 driver = webdriver.Chrome(options=chrome_options)
 
+def scraping(product):  # sourcery skip: do-not-use-bare-except
 
+   try:
+        h2 = product.h2
+   except:
+       title =''
+       url = ''
+   else:
+       title = h2.text.strip()
+       url = h2.a.get('href')
+
+   try:
+      rating = product.find('span',class_ ='a-icon-alt').text
+   except Exception:
+      rating =''
+
+   try:
+      price = product.find('span',class_ ='a-price-whole').text
+   except Exception:
+      price = ''
+   else:
+      price = ''.join(price.split(','))
+
+   data = {'title' : title, 'rating' : rating, 'price':price, 'url':url}
+
+   return data
+       
+       
+       
+
+   
+   
 def first_bot():
 
     driver.get('https://www.amazon.com/') #interacting with browser
@@ -31,8 +62,10 @@ def first_bot():
 
     soup = BeautifulSoup(html,'lxml')
 
-    cards = soup.find_all('div', {'data-asin': True, 'data-component-type' : 's-search-result'})
-
-    print(len(cards))
-
+    products = soup.find_all('div', {'data-asin': True, 'data-component-type' : 's-search-result'})
+    
+    product_dict = []
+    for product in products:
+        product_dict.append(product)
+        
 first_bot()
